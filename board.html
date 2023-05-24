@@ -1,0 +1,175 @@
+<div class="panel">
+  	<div class="panel-body">
+   	<div class="btn-group">
+		<button class="btn btn-mini dropdown-toggle" type="button" data-toggle="dropdown">
+    	  select board    <span ng-show="isloading" us-spinner="{ lines: 11, length: 3, width: 2, radius: 3, top:-18, left: 220} "></span>
+  		</button>
+  		<ul class="dropdown-menu" role="menu">
+    		<li ng-repeat="b in boards">
+    			<a href="#/board/{{b.id}}"><small>{{b.id}}</small> <i ng-show="b.lockedGame"class=" fa fa-lock"></i></a>
+    		</li>
+  		</ul>
+    </div>
+    <button class="btn btn-mini" type="button" ng-click="showPanel = !showPanel">toggle panel</button>
+
+    
+    
+    <h4>board id: {{boardid}} <span ng-show="boardlocked" class="label label-important">locked</span></h4>
+    
+	<div ng-show="showPanel" class="panel" style="height:350px">
+		<tabset>
+			<tab heading="overview">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="panel-body">
+							<p>
+							<small>
+							no. of players: <strong>{{numplayers}}</strong><br/>
+		    				type: <strong>{{gametype}}</strong><br/>
+		    				board size: <strong>{{grows}} * {{gcols}}</strong><br/>
+		    				total cells: <strong>{{totalcells}}</strong><br/>
+							</small>
+							</p>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div>
+							<div google-chart chart="chart" style="{{chart.cssStyle}}"></div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div>
+							<div google-chart chart="chart2" style="{{chart.cssStyle}}"></div>
+						</div>
+					</div>
+				</div>
+			</tab>
+			<tab heading="player details">
+				<div class="panel-body">
+				<div class="gridStyle" ng-grid="gridOptions"></div>
+				</div>
+			</tab>
+			<tab heading="options">
+    			<div class="panel-body">
+				
+			    <div class="toggle-bg {{showWC == 'true' ? 'on' : 'off'}}" >
+      		       <input type="radio" name="toggle" value="true" ng-model="showWC">
+			       <input type="radio" name="toggle" value="false" ng-model="showWC">
+			       <span class="switch" ng-class="{'off': showWC == 'false', 'on': showWC == 'true' }"></span>
+			     </div>
+				 <p><strong>{{showWC == 'true' ? 'showing' : 'not showing'}}</strong> player win counts</p>
+				
+ 			    <div class="toggle-bg {{colorLabels == 'true' ? 'on' : 'off'}}" ">
+       		       <input type="radio" name="toggle" value="true" ng-model="colorLabels">
+ 			       <input type="radio" name="toggle" value="false" ng-model="colorLabels">
+ 			       <span class="switch" ng-class="{'off': colorLabels == 'false', 'on': colorLabels == 'true' }"></span>
+ 			     </div>
+ 				 <p><strong>{{colorLabels == 'true' ? 'using' : 'not using'}}</strong> cell colored labels</p>
+				
+				
+			    <div class="toggle-bg {{boardCellSize == 20 ? 'on' : 'off'}}" >
+      		       <input type="radio" name="toggle" value="60" ng-model="boardCellSize">
+			       <input type="radio" name="toggle" value="20" ng-model="boardCellSize">
+			       <span class="switch" ng-class="{'off': boardCellSize == 20, 'on': boardCellSize == 60 }"></span>
+			     </div>
+				 <p>using <strong>{{boardCellSize == 20 ? 'small' : 'big'}}</strong> cells</p>
+			 	</div>
+			</tab>
+			<tab heading="about">
+				<div class="panel-body">
+					<p>
+						Google's AngularJS MVVM framework<br/>
+						Twitter's Bootstrap + Jason Bradley's iOS 7 theme</br>
+						FontAwesome</br>
+					</p>	
+				</div>
+			</tab>
+		</tabset>
+	</div>
+    
+    
+    <!--
+    <div collapse="isPlayersCollapsed">
+    <br/>
+	
+    <button ng-click="tableParams.reload()" class="btn btn-mini pull-right"><i class="fa fa-refresh fa-lg"></i> reload</button><p/><p/>
+     <table ng-table="tableParams" class="table">
+    <tr ng-repeat="p in $data">
+        <td data-title="'id'" sortable="playerId" style="font-size: 12px;">{{p.playerId}}</td>
+        <td data-title="'name'" sortable="name" style="font-size: 12px;"><i style="color: {{p.color}}" class=" fa fa-user"></i> {{p.name}} <span ng-show="p.name == 'theLoveBot'" class="label label-warning">best. bot. evar!</span> <i ng-show="p.errorAttacks > 999"class=" fa fa-lock"></i></td>
+        <td data-title="'won squares'" sortable="wonSquares" style="font-size: 12px;">{{p.wonSquares}}</small></td>
+        <td data-title="'bombs'" sortable="bombs" style="font-size: 12px;">{{p.bombs}}</td>
+        <td data-title="'points'" sortable="points" style="font-size: 12px;">{{p.points}}</td>        
+        <td data-title="'bonus points'" sortable="bonusPoints" style="font-size: 12px;">{{p.bonusPoints}}</td>
+        <td data-title="'attacks'" sortable="numberAttacks" style="font-size: 12px;">{{p.numberAttacks}}</td>
+        <td data-title="'errors'" sortable="errorAttacks" style="font-size: 12px;">{{p.errorAttacks}}</td>
+        
+    </tr>
+    </table>
+
+    </div>
+	-->
+</div>
+  	</div>
+	<div class="container">
+		<div class="row">
+			<div ng-show="!showPanel" class="col-sm-2">
+				
+				
+    			<div class="panel-body" style="font-weight:100; font-size:14px">
+				
+			    <div class="toggle-bg {{showWC == 'true' ? 'on' : 'off'}}" >
+      		       <input type="radio" name="toggle" value="true" ng-model="showWC">
+			       <input type="radio" name="toggle" value="false" ng-model="showWC">
+			       <span class="switch" ng-class="{'off': showWC == 'false', 'on': showWC == 'true' }"></span>
+			     </div>
+				 <p><strong>{{showWC == 'true' ? 'showing' : 'not showing'}}</strong> player win counts</p>
+				
+ 			    <div class="toggle-bg {{colorLabels == 'true' ? 'on' : 'off'}}" ">
+       		       <input type="radio" name="toggle" value="true" ng-model="colorLabels">
+ 			       <input type="radio" name="toggle" value="false" ng-model="colorLabels">
+ 			       <span class="switch" ng-class="{'off': colorLabels == 'false', 'on': colorLabels == 'true' }"></span>
+ 			     </div>
+ 				 <p><strong>{{colorLabels == 'true' ? 'using' : 'not using'}}</strong> cell colored labels</p>
+				
+				
+			    <div class="toggle-bg {{boardCellSize == 20 ? 'on' : 'off'}}" >
+      		       <input type="radio" name="toggle" value="60" ng-model="boardCellSize">
+			       <input type="radio" name="toggle" value="20" ng-model="boardCellSize">
+			       <span class="switch" ng-class="{'off': boardCellSize == 20, 'on': boardCellSize == 60 }"></span>
+			     </div>
+				 <p>using <strong>{{boardCellSize == 20 ? 'small' : 'big'}}</strong> cells</p>
+			 	</div>
+				<div class="panel-body">
+					<table>
+						<tr ng-repeat="p in playerTableData">
+			   				<td >
+								<div style="font-weight:100; font-size:14px" class="text-muted"><i style="color: {{p.color}}" class=" fa fa-circle"></i> {{p.name}} <span class="badge pull-right">{{p.points}}</span></div>
+			    			</td>
+						</tr>
+			  		</table>
+				</div>
+			</div>
+			<div class="col-sm-10">
+  		<div class="container" style="overflow:auto">	   
+			<table class="table table-bordered table-condensed table-responsive" style="width: {{boardCellSize * gcols}}px; margin: 0 auto !important; float: none !important;" >
+				<tr ng-repeat="row in board track by $index">
+	   				<td style="height:{{boardCellSize}}px; width:{{boardCellSize}}px" nowrap stylclass="text-center" bgcolor=" {{col.pobj.color}}" tooltip="[{{col.obj.row}}:{{col.obj.col}}] #{{col.obj.playerId}} {{col.p}} won: {{col.pobj.wonSquares}}" tooltip-append-to-body="true" ng-repeat="col in row track by $index">
+						<div class="center-block">
+							<input type="checkbox" ng-show="!isACCollapsed" style="vertical-align: top"> 
+						  	<span ng-show="showWC" 
+						  	class="label" 
+						  	style="float: right; font-size:10px"
+						  	ng-class="{'label-success': col.wc>50 && colorLabels == 'true', 'label-danger': col.wc <=1 && colorLabels == 'true', 'label-warning': col.wc > 10 && col.wc <= 50 && colorLabels == 'true'}">
+		
+								{{col.wc}}
+							</span>
+	 					</div>
+	    			</td>
+				</tr>
+	  		</table>
+		</div>
+	</div>
+	</div>
+	</div>
+  
